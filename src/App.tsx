@@ -17,7 +17,7 @@ function App() {
     color: '#fff'
   }
   return (
-    <div 
+    <div
       className="App"
       style={themeStyles}
       >

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import marked from 'marked'
+import { CashCompiler } from 'cashscript'
 
 // this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
 /** @jsx jsx */
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const Preview: React.FC<Props> = ({ markdownContent, theme }) => {
-    const mardownFormattedContent = ( marked(markdownContent));
+    const artifact = JSON.stringify(CashCompiler.compileString(markdownContent), null, 2);
 
     return (
         <ColumnFlex
@@ -50,9 +50,7 @@ const Preview: React.FC<Props> = ({ markdownContent, theme }) => {
                 padding: 8px 16px;
                 color: #000;
             `}
-            dangerouslySetInnerHTML={{__html: mardownFormattedContent}}
-            >
-            </div>
+            >{artifact}</div>
         </ColumnFlex>
     )
 }

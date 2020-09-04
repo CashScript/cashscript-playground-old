@@ -12,16 +12,21 @@ interface Props {
 }
 
 const Main: React.FC<Props> =  ({ theme }) => {
-  const [markdownContent, setMarkdownContent] = useState<string>(`
-# H1
-## H2
-### H3
-#### H4
-##### H5
+  const [markdownContent, setMarkdownContent] = useState<string>(
+`pragma cashscript ^0.5.0;
 
-__bold__
-**bold**
-_italic_
+contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
+    // Require recipient's signature to match
+    function transfer(sig recipientSig) {
+        require(checkSig(recipientSig, recipient));
+    }
+
+    // Require timeout time to be reached and sender's signature to match
+    function timeout(sig senderSig) {
+        require(checkSig(senderSig, sender));
+        require(tx.time >= timeout);
+    }
+}
 `);
   return (
     <RowFlex

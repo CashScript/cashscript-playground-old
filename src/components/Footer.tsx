@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer>
-      <div 
+      <div
         className="footer-description"
         css={
             css`
@@ -18,8 +18,8 @@ const Footer: React.FC = () => {
                 width: 100%;
                 text-align: center;
                 bottom: 0px;
-                color: #f89541;
-                background: #000;
+                color: #fff;
+                background: #012335;
             `
         }>
        <span>{`</>`}</span><span> with <a href="https://reactjs.org" target="_blank">React.js</a> &amp; <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a></span>

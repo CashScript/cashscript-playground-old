@@ -1,6 +1,13 @@
 import React, { ChangeEvent } from 'react'
 import PropTypes from 'prop-types';
 
+
+import CodeEditor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import '../styles.css';
+
 // this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
@@ -14,18 +21,25 @@ interface Props {
 
 const Editor: React.FC<Props> = ({ markdownContent, setMarkdownContent, theme }) => {
     return (
-        <ColumnFlex
-        id="editor"
-        css={css`
-            flex: 1;
-            padding: 16px;
-          `}>
-        <h2>
-        Editor
-        </h2>
-        <textarea
-          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setMarkdownContent(e.target.value)}
-          css={theme === 'dark'?
+      <ColumnFlex
+      id="editor"
+      css={css`
+          flex: 1;
+          padding: 16px;
+        `}>
+      <h2>
+      Editor
+      </h2>
+      <CodeEditor
+        value={markdownContent}
+        onValueChange={code => setMarkdownContent(code)}
+        highlight={code => highlight(code, languages.js, 'js')}
+        padding={10}
+        style={{
+          fontFamily: '"Fira code", "Fira Mono", monospace',
+          fontSize: 14,
+        }}
+        css={theme === 'dark'?
           css`
             height: 100%;
             border-radius: 4px;
@@ -52,13 +66,12 @@ const Editor: React.FC<Props> = ({ markdownContent, setMarkdownContent, theme })
             padding: 8px 16px;
             resize: none;
             overflow: auto;
+            background: #fff;
             &:focus {
               outline: none;
             }
           `}
-          rows={9}
-          value={markdownContent}
-          />
+      />
       </ColumnFlex>
     )
 }
