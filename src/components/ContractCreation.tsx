@@ -26,7 +26,7 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, th
     updateBalance()
   }, [contract]);
 
-  const constructorInputFields = artifact?.constructorInputs.map((input, i) => (
+  const inputFields = artifact?.constructorInputs.map((input, i) => (
       <div>
     <Form.Control type="text" size="sm"
       placeholder={`${input.type} ${input.name}`}
@@ -42,9 +42,9 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, th
 
   const createButton = <Button variant="secondary" size="sm" onClick={() => createContract()}>Create</Button>
 
-  const constructorForm = constructorInputFields.length > 0
+  const constructorForm = inputFields.length > 0
     ? (<InputGroup size="sm">
-        {constructorInputFields}
+        {inputFields}
         <InputGroup.Append>
           {createButton}
         </InputGroup.Append>

@@ -4,7 +4,7 @@ import { Artifact, Contract } from 'cashscript'
 // this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { Form, InputGroup, Button } from 'react-bootstrap';
+import ContractFunction from './ContractFunction';
 
 interface Props {
     artifact?: Artifact,
@@ -13,31 +13,9 @@ interface Props {
 }
 
 const ContractFunctions: React.FC<Props> = ({ artifact, contract, theme }) => {
-  const functionForms = artifact?.abi.map(func => {
-    const functionArgs: string[] = [];
-    const inputFields = func.inputs.map((input, i) => {
-      return <Form.Control type="text" size="sm"
-        placeholder={`${input.type} ${input.name}`}
-        aria-label={`${input.type} ${input.name}`}
-        onChange={(event) => {
-          functionArgs[i] = event.target.value;
-        }}
-      />
-    });
-
-    const functionButton = <Button variant="secondary" size="sm">{func.name}</Button>
-
-    const functionForm = inputFields.length > 0
-    ? (<InputGroup size="sm">
-        {inputFields}
-        <InputGroup.Append>
-          {functionButton}
-        </InputGroup.Append>
-      </InputGroup>)
-    : contract && functionButton;
-
-    return functionForm;
-  }) || [];
+  const functions = artifact?.abi.map(func => (
+    <ContractFunction contract={contract} abi={func} theme={theme} />
+  ))
 
   return (
     <div
@@ -68,7 +46,7 @@ const ContractFunctions: React.FC<Props> = ({ artifact, contract, theme }) => {
       {contract &&
       <div>
         <h2>Functions</h2>
-        {functionForms}
+        {functions}
       </div>
       }
     </div>
