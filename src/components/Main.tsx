@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { css, jsx } from '@emotion/core'
 import { RowFlex } from './shared'
 import Editor from './Editor';
-import Preview from './Preview';
+import ContractInfo from './ContractInfo';
 import { Artifact, CashCompiler } from 'cashscript';
 
 interface Props {
@@ -49,7 +49,7 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
         height: calc(100vh - 170px);
     `}>
       <Editor theme={theme} code={code} setCode={setCode} compile={compile} />
-      <Preview theme={theme} artifact={artifact} />
+      <ContractInfo theme={theme} artifact={artifact} />
     </RowFlex>
   )
 }

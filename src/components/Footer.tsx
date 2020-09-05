@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
             background: #012335;
           `
         }>
-       <a href="https://cashscript.org" target="_blank">cashscript.org</a>
+       <a href="https://cashscript.org" target="_blank" rel="noopener noreferrer">cashscript.org</a>
       </div>
     </footer>
   )

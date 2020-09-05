@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 
 import { ControlledEditor } from '@monaco-editor/react';
 
@@ -18,12 +18,11 @@ interface Props {
 
 const Editor: React.FC<Props> = ({ code, setCode, compile, theme }) => {
   const [isEditorReady, setIsEditorReady] = useState(false);
-  const valueGetter = useRef<() => string>();
 
-  function handleEditorDidMount(getter: () => string) {
+  function handleEditorDidMount() {
     setIsEditorReady(true);
-    valueGetter.current = getter;
   }
+
   return (
     <ColumnFlex
       id="editor"
