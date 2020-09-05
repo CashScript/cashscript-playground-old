@@ -27,7 +27,6 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, th
   }, [contract]);
 
   const inputFields = artifact?.constructorInputs.map((input, i) => (
-      <div>
     <Form.Control type="text" size="sm"
       placeholder={`${input.type} ${input.name}`}
       aria-label={`${input.type} ${input.name}`}
@@ -37,7 +36,6 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, th
         setArgs(argsCopy);
       }}
     />
-    </div>
   )) || [];
 
   const createButton = <Button variant="secondary" size="sm" onClick={() => createContract()}>Create</Button>
