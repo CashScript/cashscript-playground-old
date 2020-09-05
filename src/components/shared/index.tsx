@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { SignatureTemplate } from 'cashscript';
 
 export const ColumnFlex = styled.div`
   display: flex;
@@ -8,3 +9,15 @@ export const RowFlex = styled.div`
   display: flex;
   flex-direction: row;
 `
+
+export function readAsType(value: string, type: string) {
+  if (type === 'int') {
+    return Number(value);
+  } else if (type === 'bool') {
+    return value === 'true';
+  } else if (type === 'sig') {
+    return new SignatureTemplate(value);
+  } else {
+    return value;
+  }
+}

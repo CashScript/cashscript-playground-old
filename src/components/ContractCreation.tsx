@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Artifact, Contract } from 'cashscript'
+import { Artifact, Contract, Argument } from 'cashscript'
 
 // this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { InputGroup, Form, Button, Table } from 'react-bootstrap'
+import { readAsType } from './shared'
 
 interface Props {
     artifact?: Artifact,
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, theme }) => {
+  const [args, setArgs] = useState<Argument[]>([]);
   const [balance, setBalance] = useState<number | undefined>(undefined);
 
   useEffect(() => {
@@ -24,14 +26,15 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, th
     updateBalance()
   }, [contract]);
 
-  const constructorArgs: string[] = [];
   const constructorInputFields = artifact?.constructorInputs.map((input, i) => (
       <div>
     <Form.Control type="text" size="sm"
       placeholder={`${input.type} ${input.name}`}
       aria-label={`${input.type} ${input.name}`}
       onChange={(event) => {
-        constructorArgs[i] = event.target.value;
+        const argsCopy = [...args];
+        argsCopy[i] = readAsType(event.target.value, input.type);
+        setArgs(argsCopy);
       }}
     />
     </div>
@@ -51,7 +54,7 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, th
   function createContract() {
     if (!artifact) return;
     try {
-      const newContract = new Contract(artifact, constructorArgs);
+      const newContract = new Contract(artifact, args);
       setContract(newContract);
     } catch (e) {
       alert(e.message);
