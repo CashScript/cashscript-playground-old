@@ -1,11 +1,11 @@
 import React from 'react'
-import { css, jsx } from '@emotion/core'
 
 // Components
 import Header from './components/Header'
 import Main from './components/Main'
 import Footer from './components/Footer';
-import useDarkMode from './userDarkMode';
+import useDarkMode from './useDarkMode';
+
 
 function App() {
   const { theme, toggleTheme } = useDarkMode();

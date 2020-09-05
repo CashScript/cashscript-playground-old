@@ -11,18 +11,18 @@ const Footer: React.FC = () => {
       <div
         className="footer-description"
         css={
-            css`
-                padding: 16px 0px;
-                overflow: hidden;
-                position: absolute;
-                width: 100%;
-                text-align: center;
-                bottom: 0px;
-                color: #fff;
-                background: #012335;
-            `
+          css`
+            padding: 16px 0px;
+            overflow: hidden;
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            bottom: 0px;
+            color: #fff;
+            background: #012335;
+          `
         }>
-       <span>{`</>`}</span><span> with <a href="https://reactjs.org" target="_blank">React.js</a> &amp; <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a></span>
+       <a href="https://cashscript.org" target="_blank">cashscript.org</a>
       </div>
     </footer>
   )

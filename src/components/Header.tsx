@@ -12,7 +12,6 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ theme, toggleTheme }) => {
-
   return (
     <header
       css={theme === 'dark' ?

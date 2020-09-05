@@ -6,13 +6,14 @@ import { css, jsx } from '@emotion/core'
 import { RowFlex } from './shared'
 import Editor from './Editor';
 import Preview from './Preview';
+import { Artifact, CashCompiler } from 'cashscript';
 
 interface Props {
   theme: string
 }
 
-const Main: React.FC<Props> =  ({ theme }) => {
-  const [markdownContent, setMarkdownContent] = useState<string>(
+const Main: React.FC<Props> = ({ theme }) => {
+  const [code, setCode] = useState<string>(
 `pragma cashscript ^0.5.0;
 
 contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
@@ -28,15 +29,27 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
     }
 }
 `);
+
+  const [artifact, setArtifact] = useState<Artifact | undefined>(undefined);
+
+  function compile() {
+    try {
+      const artifact = CashCompiler.compileString(code);
+      setArtifact(artifact);
+    } catch (e) {
+      alert(e.message);
+    }
+  }
+
   return (
     <RowFlex
       css={css`
         padding: 32px;
         padding-top: 0px;
         height: calc(100vh - 170px);
-        `}>
-      <Editor theme={theme} markdownContent={markdownContent} setMarkdownContent={setMarkdownContent}/>
-      <Preview theme={theme} markdownContent={markdownContent}/>
+    `}>
+      <Editor theme={theme} code={code} setCode={setCode} compile={compile} />
+      <Preview theme={theme} artifact={artifact} />
     </RowFlex>
   )
 }
