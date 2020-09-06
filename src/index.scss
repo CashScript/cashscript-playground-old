@@ -1,4 +1,4 @@
-@import "bootstrap";
+@import 'bootstrap';
 
 body {
   margin: 0;
@@ -16,6 +16,33 @@ code {
     monospace;
 }
 
+.btn-secondary {
+  color: #fff;
+
+  background-color: #ea4cbd;
+  border-color: #ea4cbd;
+  transition: all 150ms ease;
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #d848af;
+  border-color: #ea4cbd;
+}
+
+.btn-secondary:focus,
+.btn-secondary.focus {
+  color: #fff;
+  background-color: #d848af;
+  border-color: #ea4cbd;
+}
+.btn-secondary.disabled,
+.btn-secondary:disabled {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
 .App {
   min-height: 100vh;
   transition: color ease-in-out 0.3s, background-color ease-in-out 0.3s;
@@ -25,7 +52,7 @@ a,
 a:focus,
 a:active,
 a:visited,
-a:hover{
+a:hover {
   text-decoration: none;
   color: inherit;
 }

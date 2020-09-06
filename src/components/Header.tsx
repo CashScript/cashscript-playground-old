@@ -8,17 +8,13 @@ const Header: React.FC<Props> = () => {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
-      backgroundColor: '#012335',
-      color: '#fff',
-      padding: '24px 32px',
-      boxShadow: '0px -2px 8px #000',
-      fontSize: '16px'
+      color: 'black',
+      padding: '24px 44px',
+      fontSize: '30px'
     }}>
-      <div className="header-title">
-        CashScript Playground
-      </div>
+      <div className="header-title">CashScript Playground</div>
     </header>
   )
 }
 
-export default Header;
+export default Header

@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Footer: React.FC = () => {
-
   return (
     <footer>
       <div
@@ -14,7 +13,7 @@ const Footer: React.FC = () => {
           textAlign: 'center',
           bottom: '0px',
           color: '#fff',
-          background: '#012335'
+          background: 'black'
       }}>
         <a href="https://cashscript.org" target="_blank" rel="noopener noreferrer">cashscript.org</a>
       </div>
@@ -22,4 +21,4 @@ const Footer: React.FC = () => {
   )
 }
 
-export default Footer;
+export default Footer

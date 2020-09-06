@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Contract, AbiFunction, Argument } from 'cashscript'
-import { Recipient } from 'cashscript/dist/interfaces';
-import { Form, InputGroup, Button, Card } from 'react-bootstrap';
-import { readAsType } from './shared';
+import { Recipient } from 'cashscript/dist/interfaces'
+import { Form, InputGroup, Button, Card } from 'react-bootstrap'
+import { readAsType } from './shared'
 
 interface Props {
-  contract?: Contract,
+  contract?: Contract
   abi?: AbiFunction
 }
 
 const ContractFunction: React.FC<Props> = ({ contract, abi }) => {
-  const [args, setArgs] = useState<Argument[]>([]);
-  const [outputs, setOutputs] = useState<Recipient[]>([]);
+  const [args, setArgs] = useState<Argument[]>([])
+  const [outputs, setOutputs] = useState<Recipient[]>([])
 
   useEffect(() => {
     // Set empty strings as default values
@@ -29,41 +29,41 @@ const ContractFunction: React.FC<Props> = ({ contract, abi }) => {
         setArgs(argsCopy);
       }}
     />
-  )) || [];
+  )) || []
 
   const receiverInputGroup = (
     <InputGroup>
-      <Form.Control type="text" size="sm"
+      <Form.Control size="sm"
         placeholder="Receiver address"
         aria-label="Receiver address"
         onChange={(event) => {
-          const outputsCopy = [...outputs];
+          const outputsCopy = [...outputs]
           const output = outputsCopy[0] || { to: '', amount: 0 }
-          output.to = event.target.value;
-          outputsCopy[0] = output;
-          setOutputs(outputsCopy);
+          output.to = event.target.value
+          outputsCopy[0] = output
+          setOutputs(outputsCopy)
         }}
       />
-      <Form.Control type="text" size="sm"
+      <Form.Control size="sm"
         placeholder="Send amount"
         aria-label="Send amount"
         onChange={(event) => {
-          const outputsCopy = [...outputs];
+          const outputsCopy = [...outputs]
           const output = outputsCopy[0] || { to: '', amount: 0 }
-          output.amount = Number(event.target.value);
-          outputsCopy[0] = output;
-          setOutputs(outputsCopy);
+          output.amount = Number(event.target.value)
+          outputsCopy[0] = output
+          setOutputs(outputsCopy)
         }}
       />
     </InputGroup>
   )
 
   async function sendTransaction() {
-    if (!contract || !abi) return;
+    if (!contract || !abi) return
     try {
       const { txid } = await contract.functions[abi.name](...args)
         .to(outputs)
-        .send();
+        .send()
 
       alert(`Transaction successfully sent: https://explorer.bitcoin.com/bch/tx/${txid}`)
     } catch (e) {
@@ -93,4 +93,4 @@ const ContractFunction: React.FC<Props> = ({ contract, abi }) => {
   )
 }
 
-export default ContractFunction;
+export default ContractFunction

@@ -9,14 +9,14 @@ interface Props {
 }
 
 const ContractInfo: React.FC<Props> = ({ artifact }) => {
-  const [contract, setContract] = useState<Contract | undefined>(undefined);
+  const [contract, setContract] = useState<Contract | undefined>(undefined)
 
-  useEffect(() => setContract(undefined), [artifact]);
+  useEffect(() => setContract(undefined), [artifact])
 
   return (
     <ColumnFlex
       id="preview"
-      style={{ flex: 1, padding: '16px' }}
+      style={{ flex: 1, margin: '16px' }}
     >
       <ContractCreation artifact={artifact} contract={contract} setContract={setContract} />
       <ContractFunctions artifact={artifact} contract={contract} />
@@ -24,4 +24,4 @@ const ContractInfo: React.FC<Props> = ({ artifact }) => {
   )
 }
 
-export default ContractInfo;
+export default ContractInfo

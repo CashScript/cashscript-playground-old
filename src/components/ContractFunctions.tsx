@@ -1,10 +1,10 @@
 import React from 'react'
 import { Artifact, Contract } from 'cashscript'
-import ContractFunction from './ContractFunction';
+import ContractFunction from './ContractFunction'
 
 interface Props {
-    artifact?: Artifact,
-    contract?: Contract
+  artifact?: Artifact
+  contract?: Contract
 }
 
 const ContractFunctions: React.FC<Props> = ({ artifact, contract }) => {
@@ -15,8 +15,7 @@ const ContractFunctions: React.FC<Props> = ({ artifact, contract }) => {
   return (
     <div style={{
       height: '100%',
-      borderRadius: '0px 0px 4px 4px',
-      borderTop: '5px solid #eee',
+      border: '2px solid black',
       fontSize: '100%',
       lineHeight: 'inherit',
       overflow: 'auto',
@@ -34,4 +33,4 @@ const ContractFunctions: React.FC<Props> = ({ artifact, contract }) => {
   )
 }
 
-export default ContractFunctions;
+export default ContractFunctions
