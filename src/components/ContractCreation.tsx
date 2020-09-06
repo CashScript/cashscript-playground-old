@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Artifact, Contract, Argument } from 'cashscript'
 import { InputGroup, Form, Button } from 'react-bootstrap'
 import { readAsType } from './shared'
+import { QRFunc } from 'react-qrbtf'
 
 interface Props {
   artifact?: Artifact,
@@ -83,17 +84,23 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract }) 
       <h2>{artifact?.contractName}</h2>
       {constructorForm}
       {contract !==  undefined && balance !== undefined &&
-        <div style={{ margin: '5px' }}>
-          <strong>Contract address</strong>
-          <p>{contract.address}</p>
-          <strong>Contract balance</strong>
-          <p>{balance} satoshis</p>
-          <strong>Bytecode size</strong>
-          <p>{contract.bytesize} bytes</p>
-          <strong>Bytecode opcount</strong>
-          <p>{contract.opcount} opcodes</p>
+        <div style={{ margin: '5px', width: '100%' }}>
+          <div style={{ float: 'left', width: '70%' }}>
+            <strong>Contract address</strong>
+            <p>{contract.address}</p>
+            <strong>Contract balance</strong>
+            <p>{balance} satoshis</p>
+            <strong>Bytecode size</strong>
+            <p>{contract.bytesize} bytes</p>
+            <strong>Bytecode opcount</strong>
+            <p>{contract.opcount} opcodes</p>
+          </div>
+          <div style={{ float: 'left', width: '30%', paddingTop: '4%' }}>
+            <QRFunc value={contract.address} />
+          </div>
         </div>
       }
+
     </div>
   )
 }

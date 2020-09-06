@@ -39,7 +39,7 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
     <RowFlex style={{
       padding: '32px',
       paddingTop: '0px',
-      height: 'calc(100vh - 170px'
+      height: 'calc(100vh - 120px'
     }}>
       <Editor code={code} setCode={setCode} compile={compile} />
       <ContractInfo artifact={artifact} />
