@@ -1,18 +1,12 @@
 import React, { useState } from 'react'
-
-// this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { Artifact, CashCompiler } from 'cashscript';
 import { RowFlex } from './shared'
 import Editor from './Editor';
 import ContractInfo from './ContractInfo';
-import { Artifact, CashCompiler } from 'cashscript';
 
-interface Props {
-  theme: string
-}
+interface Props {}
 
-const Main: React.FC<Props> = ({ theme }) => {
+const Main: React.FC<Props> = () => {
   const [code, setCode] = useState<string>(
 `pragma cashscript ^0.5.0;
 
@@ -42,14 +36,13 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
   }
 
   return (
-    <RowFlex
-      css={css`
-        padding: 32px;
-        padding-top: 0px;
-        height: calc(100vh - 170px);
-    `}>
-      <Editor theme={theme} code={code} setCode={setCode} compile={compile} />
-      <ContractInfo theme={theme} artifact={artifact} />
+    <RowFlex style={{
+      padding: '32px',
+      paddingTop: '0px',
+      height: 'calc(100vh - 170px'
+    }}>
+      <Editor code={code} setCode={setCode} compile={compile} />
+      <ContractInfo artifact={artifact} />
     </RowFlex>
   )
 }

@@ -1,51 +1,21 @@
 import React from 'react'
-import { FiSun } from 'react-icons/fi'
-import { FaMoon } from 'react-icons/fa'
 
-// this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+interface Props {}
 
-interface Props {
-  toggleTheme: () => void,
-  theme: string
-}
-
-const Header: React.FC<Props> = ({ theme, toggleTheme }) => {
+const Header: React.FC<Props> = () => {
   return (
-    <header
-      css={theme === 'dark' ?
-      css`
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        background-color: #012335;
-        padding: 24px 32px;
-        font-size: 16px;
-      `:css`
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        background-color: #012335;
-        color: #fff;
-        padding: 24px 32px;
-        box-shadow: 0px -2px 8px #000;
-        font-size: 16px;
-    `}>
+    <header style={{
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      backgroundColor: '#012335',
+      color: '#fff',
+      padding: '24px 32px',
+      boxShadow: '0px -2px 8px #000',
+      fontSize: '16px'
+    }}>
       <div className="header-title">
         CashScript Playground
-      </div>
-      <div css={
-        css`
-          cursor: pointer;
-        `}
-        onClick={toggleTheme}
-      >
-       {
-         theme === 'dark'?
-         <FaMoon />:
-         <FiSun />
-       }
       </div>
     </header>
   )

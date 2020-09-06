@@ -1,22 +1,15 @@
 import React, { useState } from 'react'
-
 import { ControlledEditor } from '@monaco-editor/react';
-
-// this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { ColumnFlex } from './shared'
-
 import { Button } from 'react-bootstrap';
+import { ColumnFlex } from './shared'
 
 interface Props {
   code: string;
   setCode: (value: string) => void,
-  compile: () => void,
-  theme: string
+  compile: () => void
 }
 
-const Editor: React.FC<Props> = ({ code, setCode, compile, theme }) => {
+const Editor: React.FC<Props> = ({ code, setCode, compile }) => {
   const [isEditorReady, setIsEditorReady] = useState(false);
 
   function handleEditorDidMount() {
@@ -26,14 +19,12 @@ const Editor: React.FC<Props> = ({ code, setCode, compile, theme }) => {
   return (
     <ColumnFlex
       id="editor"
-      css={css`
-        flex: 1;
-        padding: 16px;
-    `}>
+      style={{ flex: 1, padding: '16px' }}
+    >
       <ControlledEditor
         language="sol"
         value={code}
-        theme={theme}
+        theme="light"
         onChange={(ev: any, code?: string) => code && setCode(code)}
         editorDidMount={handleEditorDidMount}
       />

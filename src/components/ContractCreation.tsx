@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Artifact, Contract, Argument } from 'cashscript'
-
-// this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { InputGroup, Form, Button, Table } from 'react-bootstrap'
+import { InputGroup, Form, Button } from 'react-bootstrap'
 import { readAsType } from './shared'
 
 interface Props {
-    artifact?: Artifact,
-    contract?: Contract,
-    setContract: (contract?: Contract) => void,
-    theme: string
+  artifact?: Artifact,
+  contract?: Contract,
+  setContract: (contract?: Contract) => void
 }
 
-const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, theme }) => {
+const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract }) => {
   const [args, setArgs] = useState<Argument[]>([]);
   const [balance, setBalance] = useState<number | undefined>(undefined);
 
@@ -26,7 +21,10 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, th
       if (el) (el as any).value = ''
     });
 
-    setArgs([]);
+    // Set empty strings as default values
+    const newArgs = artifact?.constructorInputs.map(() => '') || [];
+
+    setArgs(newArgs);
   }, [artifact])
 
   useEffect(() => {
@@ -71,55 +69,31 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, th
   }
 
   return (
-    <div
-    css={theme === 'dark'
-    ? css`
-    height: 100%;
-    border-radius: 4px 4px 0px 0px;
-    border: none;
-    font-size: 100%;
-    line-height: inherit;
-    overflow: auto;
-    background: #202124;
-    padding: 8px 16px;
-    color: #cfcfcf;
-    `
-    : css`
-    height: 100%;
-    border-radius: 4px 4px 0px 0px;
-    border: none;
-    font-size: 100%;
-    line-height: inherit;
-    overflow: auto;
-    background: #fffffe;
-    padding: 8px 16px;
-    color: #000;
-    `}
-    >
-    <h2>{artifact?.contractName}</h2>
-    {constructorForm}
-    {contract !== undefined && balance !== undefined &&
-      <Table bordered variant={theme}>
-        <tbody>
-          <tr>
-            <td>Contract address</td>
-            <td>{contract.address}</td>
-          </tr>
-          <tr>
-            <td>Contract balance</td>
-            <td>{balance} satoshis</td>
-          </tr>
-          <tr>
-            <td>Bytecode size</td>
-            <td>{contract.bytesize} bytes</td>
-          </tr>
-          <tr>
-            <td>Bytecode opcount</td>
-            <td>{contract.opcount} opcodes</td>
-          </tr>
-        </tbody>
-      </Table>
-    }
+    <div style={{
+      height: '100%',
+      borderRadius: '4px 4px 0px 0px',
+      border: 'none',
+      fontSize: '100%',
+      lineHeight: 'inherit',
+      overflow: 'auto',
+      background: '#fffffe',
+      padding: '8px 16px',
+      color: '#000'
+    }}>
+      <h2>{artifact?.contractName}</h2>
+      {constructorForm}
+      {contract !==  undefined && balance !== undefined &&
+        <div style={{ margin: '5px' }}>
+          <strong>Contract address</strong>
+          <p>{contract.address}</p>
+          <strong>Contract balance</strong>
+          <p>{balance} satoshis</p>
+          <strong>Bytecode size</strong>
+          <p>{contract.bytesize} bytes</p>
+          <strong>Bytecode opcount</strong>
+          <p>{contract.opcount} opcodes</p>
+        </div>
+      }
     </div>
   )
 }

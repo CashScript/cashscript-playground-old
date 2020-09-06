@@ -1,22 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Contract, AbiFunction, Argument } from 'cashscript'
 import { Recipient } from 'cashscript/dist/interfaces';
-
-// this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 import { Form, InputGroup, Button, Card } from 'react-bootstrap';
 import { readAsType } from './shared';
 
 interface Props {
   contract?: Contract,
-  abi?: AbiFunction,
-  theme: string
+  abi?: AbiFunction
 }
 
-const ContractFunction: React.FC<Props> = ({ contract, abi, theme }) => {
+const ContractFunction: React.FC<Props> = ({ contract, abi }) => {
   const [args, setArgs] = useState<Argument[]>([]);
   const [outputs, setOutputs] = useState<Recipient[]>([]);
+
+  useEffect(() => {
+    // Set empty strings as default values
+    const newArgs = abi?.inputs.map(() => '') || [];
+    setArgs(newArgs);
+  }, [abi])
 
   const inputFields = abi?.inputs.map((input, i) => (
     <Form.Control size="sm" id={`${input.name}-parameter-${i}`}
@@ -73,14 +74,14 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, theme }) => {
   return (
     <div>
       {contract &&
-        <Card>
+        <Card style={{ marginBottom: '10px' }}>
           <Card.Header>{abi?.name}</Card.Header>
           <Card.Body>
             <Card.Subtitle>Arguments</Card.Subtitle>
             <Card.Text>
               {inputFields}
             </Card.Text>
-            <Card.Subtitle>Transaction details</Card.Subtitle>
+            <Card.Subtitle style={{ marginTop: '10px' }}>Transaction details</Card.Subtitle>
             <Card.Text>
               {receiverInputGroup}
             </Card.Text>

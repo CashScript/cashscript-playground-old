@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 import { SignatureTemplate } from 'cashscript';
+import { decodeCashAddress, decodeCashAddressFormatWithoutPrefix } from '@bitauth/libauth';
 
 export const ColumnFlex = styled.div`
   display: flex;
@@ -21,6 +22,20 @@ export function readAsType(value: string, type: string) {
     } catch (e) {
       return value;
     }
+  } else if (type === 'bytes20') {
+    let addressInfo;
+
+    if (value.startsWith('bitcoincash:') || value.startsWith('bchtest:')) {
+      addressInfo = decodeCashAddress(value);
+    } else if(value.startsWith('q') || value.startsWith('p')) {
+      addressInfo = decodeCashAddressFormatWithoutPrefix(value, ['bitcoincash', 'bchtest']);
+    }
+
+    if (addressInfo === undefined || typeof addressInfo === 'string') {
+      return value;
+    }
+
+    return addressInfo.hash;
   } else {
     return value;
   }
