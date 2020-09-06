@@ -16,7 +16,11 @@ export function readAsType(value: string, type: string) {
   } else if (type === 'bool') {
     return value === 'true';
   } else if (type === 'sig') {
-    return new SignatureTemplate(value);
+    try {
+      return new SignatureTemplate(value);
+    } catch (e) {
+      return value;
+    }
   } else {
     return value;
   }

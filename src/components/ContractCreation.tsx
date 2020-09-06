@@ -19,6 +19,17 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, th
   const [balance, setBalance] = useState<number | undefined>(undefined);
 
   useEffect(() => {
+    // This code is suuper ugly but I haven't found any other way to clear the value
+    // of the input fields.
+    artifact?.constructorInputs.forEach((input, i) => {
+      const el = document.getElementById(`constructor-arg-${i}`);
+      if (el) (el as any).value = ''
+    });
+
+    setArgs([]);
+  }, [artifact])
+
+  useEffect(() => {
     async function updateBalance() {
       if (!contract) return;
       setBalance(await contract.getBalance())
@@ -27,7 +38,7 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, th
   }, [contract]);
 
   const inputFields = artifact?.constructorInputs.map((input, i) => (
-    <Form.Control type="text" size="sm"
+    <Form.Control size="sm" id={`constructor-arg-${i}`}
       placeholder={`${input.type} ${input.name}`}
       aria-label={`${input.type} ${input.name}`}
       onChange={(event) => {

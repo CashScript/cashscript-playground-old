@@ -23,7 +23,7 @@ const ContractFunctions: React.FC<Props> = ({ artifact, contract, theme }) => {
       ? css`
       height: 100%;
       border-radius: 0px 0px 4px 4px;
-      border-top: 2px solid black;
+      border-top: 2px solid #171616;
       font-size: 100%;
       line-height: inherit;
       overflow: auto;
@@ -34,7 +34,7 @@ const ContractFunctions: React.FC<Props> = ({ artifact, contract, theme }) => {
       : css`
       height: 100%;
       border-radius: 0px 0px 4px 4px;
-      border-top: 2px solid black;
+      border-top: 2px solid #eeeeee;
       font-size: 100%;
       line-height: inherit;
       overflow: auto;

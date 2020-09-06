@@ -19,7 +19,7 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, theme }) => {
   const [outputs, setOutputs] = useState<Recipient[]>([]);
 
   const inputFields = abi?.inputs.map((input, i) => (
-    <Form.Control type="text" size="sm"
+    <Form.Control size="sm" id={`${input.name}-parameter-${i}`}
       placeholder={`${input.type} ${input.name}`}
       aria-label={`${input.type} ${input.name}`}
       onChange={(event) => {

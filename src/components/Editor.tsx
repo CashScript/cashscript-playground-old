@@ -31,7 +31,6 @@ const Editor: React.FC<Props> = ({ code, setCode, compile, theme }) => {
         padding: 16px;
     `}>
       <ControlledEditor
-        height="90vh"
         language="sol"
         value={code}
         theme={theme}
