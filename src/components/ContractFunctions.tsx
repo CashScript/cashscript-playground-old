@@ -16,6 +16,7 @@ const ContractFunctions: React.FC<Props> = ({ artifact, contract }) => {
     <div style={{
       height: '100%',
       border: '2px solid black',
+      borderTop: '1px solid black',
       fontSize: '100%',
       lineHeight: 'inherit',
       overflow: 'auto',
