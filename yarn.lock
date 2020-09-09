@@ -3508,10 +3508,10 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cashc@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/cashc/-/cashc-0.5.1.tgz#d78f043d6bd8496c36b06e869a6d94f7bb235d25"
-  integrity sha512-vR1E63FAsfld61VV59hr7Ml4S4NDLDo9NI7U59fJPLHMvSBmIeZVBoz7i/qqEGEK7G7Y+f06GyitY3OOVKqxUA==
+cashc@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/cashc/-/cashc-0.5.2.tgz#daf3579107529da5f7b412cd5e3637ad2d79b015"
+  integrity sha512-aaAj/WnjRqUP0qNKTqPy8//RkI+fYMPNQtqdk4eTqCYpoqv2GLjULLKsCNOTUWnI/oiOwO/Y4BNQAsgbAPk0Fg==
   dependencies:
     "@bitauth/libauth" "^1.17.1"
     "@types/semver" "^6.0.2"
@@ -3519,14 +3519,14 @@ cashc@^0.5.1:
     commander "^6.0.0"
     semver "^6.3.0"
 
-cashscript@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/cashscript/-/cashscript-0.5.1.tgz#e87734f8ce6ee4729a973e9de040bac6c2b26770"
-  integrity sha512-6EwAZbQ2aMmKnfr2M+b/fJFqOv9tgU5RtJQfABE6DEkwaTm9/6NHBtcFaZLM6FpF7fK4Q9KZGL4jYclLuh01uw==
+cashscript@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/cashscript/-/cashscript-0.5.2.tgz#22cb64a30442fdc140241a90264420b6afe7d736"
+  integrity sha512-PIekG+UUt4HTExsUAa6ARFcwOUL5RrUnzKOtJAapDgVzPyYeav25Lbcs3DCHOR2LmIaOaPKRVwDMWgGCVedDSQ==
   dependencies:
     "@bitauth/libauth" "^1.17.1"
     bip68 "^1.0.4"
-    cashc "^0.5.1"
+    cashc "^0.5.2"
     delay "^4.3.0"
     electrum-cash "^2.0.2"
     hash.js "^1.1.7"
