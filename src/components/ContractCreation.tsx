@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Artifact, Contract, Argument } from 'cashscript'
+import { Artifact, Contract, Argument, Network, ElectrumNetworkProvider } from 'cashscript'
 import { InputGroup, Form, Button } from 'react-bootstrap'
 import { QRFunc } from 'react-qrbtf'
 import { readAsType } from './shared'
@@ -8,9 +8,11 @@ interface Props {
   artifact?: Artifact
   contract?: Contract
   setContract: (contract?: Contract) => void
+  network: Network
+  setNetwork: (network: Network) => void
 }
 
-const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract }) => {
+const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, network, setNetwork }) => {
   const [args, setArgs] = useState<Argument[]>([])
   const [balance, setBalance] = useState<number | undefined>(undefined)
 
@@ -48,21 +50,35 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract }) 
     />
   )) || []
 
+  const networkSelector = (
+    <Form.Control size="sm" id="network-selector"
+      as="select"
+      value={network}
+      onChange={(event) => {
+        setNetwork(event.target.value as Network)
+      }}
+    >
+      <option>mainnet</option>
+      <option>testnet</option>
+    </Form.Control>
+  )
+
   const createButton = <Button variant="secondary" size="sm" onClick={() => createContract()}>Create</Button>
 
-  const constructorForm = inputFields.length > 0
-    ? (<InputGroup size="sm">
-        {inputFields}
-        <InputGroup.Append>
-          {createButton}
-        </InputGroup.Append>
-      </InputGroup>)
-    : artifact && createButton
+  const constructorForm = artifact &&
+    (<InputGroup size="sm">
+      {inputFields}
+      {networkSelector}
+      <InputGroup.Append>
+        {createButton}
+      </InputGroup.Append>
+    </InputGroup>)
 
   function createContract() {
     if (!artifact) return
     try {
-      const newContract = new Contract(artifact, args)
+      const provider = new ElectrumNetworkProvider(network)
+      const newContract = new Contract(artifact, args, provider)
       setContract(newContract)
     } catch (e) {
       alert(e.message)

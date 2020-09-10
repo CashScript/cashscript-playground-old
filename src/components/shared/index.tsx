@@ -40,3 +40,8 @@ export function readAsType(value: string, type: string) {
     return value;
   }
 }
+
+export const ExplorerString = {
+  mainnet: 'https://explorer.bitcoin.com/bch',
+  testnet: 'https://explorer.bitcoin.com/tbch'
+}

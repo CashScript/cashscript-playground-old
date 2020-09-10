@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Contract, AbiFunction, Argument } from 'cashscript'
-import { Recipient } from 'cashscript/dist/interfaces'
+import { Recipient, Network } from 'cashscript/dist/interfaces'
 import { Form, InputGroup, Button, Card } from 'react-bootstrap'
-import { readAsType } from './shared'
+import { readAsType, ExplorerString } from './shared'
 
 interface Props {
   contract?: Contract
   abi?: AbiFunction
+  network: Network
 }
 
-const ContractFunction: React.FC<Props> = ({ contract, abi }) => {
+const ContractFunction: React.FC<Props> = ({ contract, abi, network }) => {
   const [args, setArgs] = useState<Argument[]>([])
   const [outputs, setOutputs] = useState<Recipient[]>([])
 
@@ -65,7 +66,7 @@ const ContractFunction: React.FC<Props> = ({ contract, abi }) => {
         .to(outputs)
         .send()
 
-      alert(`Transaction successfully sent: https://explorer.bitcoin.com/bch/tx/${txid}`)
+      alert(`Transaction successfully sent: ${ExplorerString[network]}/tx/${txid}`)
     } catch (e) {
       alert(e.message)
     }
