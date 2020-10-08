@@ -70,7 +70,7 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network }) => {
       console.log(`Transaction successfully sent: ${ExplorerString[network]}/tx/${txid}`)
     } catch (e) {
       alert(e.message)
-      console.log(e.message)
+      console.error(e.message)
     }
   }
 
