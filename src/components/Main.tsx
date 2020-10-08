@@ -32,6 +32,7 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
       setArtifact(artifact);
     } catch (e) {
       alert(e.message);
+      console.log(e.message);
     }
   }
 
