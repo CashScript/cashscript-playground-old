@@ -82,6 +82,7 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, ne
       setContract(newContract)
     } catch (e) {
       alert(e.message)
+      console.error(e.message)
     }
   }
 
