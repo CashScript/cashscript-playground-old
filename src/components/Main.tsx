@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Artifact, CashCompiler } from 'cashscript';
+import { Artifact } from 'cashscript';
+import { CashCompiler } from 'cashsc';
 import { RowFlex } from './shared'
 import Editor from './Editor';
 import ContractInfo from './ContractInfo';

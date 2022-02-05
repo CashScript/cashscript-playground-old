@@ -43,5 +43,6 @@ export function readAsType(value: string, type: string) {
 
 export const ExplorerString = {
   mainnet: 'https://explorer.bitcoin.com/bch',
-  testnet: 'https://explorer.bitcoin.com/tbch'
+  testnet: 'https://explorer.bitcoin.com/tbch',
+  regtest: ''
 }

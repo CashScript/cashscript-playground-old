@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Contract, AbiFunction, Argument } from 'cashscript'
-import { Recipient, Network } from 'cashscript/dist/interfaces'
+import { Contract, AbiFunction, Argument, Network, Recipient } from 'cashscript'
 import { Form, InputGroup, Button, Card } from 'react-bootstrap'
 import { readAsType, ExplorerString } from './shared'
 
