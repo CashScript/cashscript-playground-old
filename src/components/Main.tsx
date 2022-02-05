@@ -9,7 +9,7 @@ interface Props {}
 
 const Main: React.FC<Props> = () => {
   const [code, setCode] = useState<string>(
-`pragma cashscript ^0.5.0;
+`pragma cashscript ^0.6.5;
 
 contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
     // Require recipient's signature to match

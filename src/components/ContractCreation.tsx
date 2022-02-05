@@ -108,9 +108,9 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, ne
             <strong>Contract balance</strong>
             <p>{balance} satoshis</p>
             <strong>Bytecode size</strong>
-            <p>{contract.bytesize} bytes</p>
+            <p>{contract.bytesize} bytes (max 520)</p>
             <strong>Bytecode opcount</strong>
-            <p>{contract.opcount} opcodes</p>
+            <p>{contract.opcount} opcodes (max 201)</p>
           </div>
           <div style={{ float: 'left', width: '30%', paddingTop: '4%' }}>
             <QRFunc value={contract.address} />
