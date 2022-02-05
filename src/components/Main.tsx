@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Artifact } from 'cashscript';
-import { CashCompiler } from 'cashsc';
+import {compileString} from 'cashc';
 import { RowFlex } from './shared'
 import Editor from './Editor';
 import ContractInfo from './ContractInfo';
@@ -29,7 +29,7 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
 
   function compile() {
     try {
-      const artifact = CashCompiler.compileString(code);
+      const artifact = compileString(code);
       setArtifact(artifact);
     } catch (e) {
       alert(e.message);
