@@ -11,7 +11,7 @@ interface Props {
 
 const ContractFunction: React.FC<Props> = ({ contract, abi, network }) => {
   const [args, setArgs] = useState<Argument[]>([])
-  const [outputs, setOutputs] = useState<Recipient[]>([])
+  const [outputs, setOutputs] = useState<Recipient[]>([{ to: '', amount: 0 }])
 
   useEffect(() => {
     // Set empty strings as default values
@@ -31,16 +31,16 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network }) => {
     />
   )) || []
 
-  const receiverInputGroup = (
+  const receiverInputGroup = outputs.map((output,index) =>(
     <InputGroup>
       <Form.Control size="sm"
         placeholder="Receiver address"
         aria-label="Receiver address"
         onChange={(event) => {
           const outputsCopy = [...outputs]
-          const output = outputsCopy[0] || { to: '', amount: 0 }
+          const output = outputsCopy[index]
           output.to = event.target.value
-          outputsCopy[0] = output
+          outputsCopy[index] = output
           setOutputs(outputsCopy)
         }}
       />
@@ -49,14 +49,14 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network }) => {
         aria-label="Send amount"
         onChange={(event) => {
           const outputsCopy = [...outputs]
-          const output = outputsCopy[0] || { to: '', amount: 0 }
+          const output = outputsCopy[index]
           output.amount = Number(event.target.value)
-          outputsCopy[0] = output
+          outputsCopy[index] = output
           setOutputs(outputsCopy)
         }}
       />
     </InputGroup>
-  )
+  ))
 
   async function sendTransaction() {
     if (!contract || !abi) return
@@ -73,6 +73,18 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network }) => {
     }
   }
 
+  function addOutput() {
+    const outputsCopy = [...outputs]
+    outputsCopy.push({ to: '', amount: 0 })
+    setOutputs(outputsCopy)
+  }
+
+  function removeOutput() {
+    const outputsCopy = [...outputs]
+    outputsCopy.splice(-1)
+    setOutputs(outputsCopy)
+  }
+
   return (
     <div>
       {contract &&
@@ -83,7 +95,8 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network }) => {
             <Card.Text>
               {inputFields}
             </Card.Text>
-            <Card.Subtitle style={{ marginTop: '10px' }}>Transaction details</Card.Subtitle>
+            <Card.Subtitle style={{ marginTop: '10px',marginBottom: '5px' }}>Transaction outputs <Button variant="outline-secondary" size="sm" onClick={removeOutput}>-</Button> {outputs.length} <Button variant="outline-secondary" size="sm" onClick={addOutput}>+</Button>
+            </Card.Subtitle>
             <Card.Text>
               {receiverInputGroup}
             </Card.Text>
