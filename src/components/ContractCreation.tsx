@@ -10,9 +10,10 @@ interface Props {
   setContract: (contract?: Contract) => void
   network: Network
   setNetwork: (network: Network) => void
+  setShowWallets:(showWallets: boolean) => void
 }
 
-const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, network, setNetwork }) => {
+const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, network, setNetwork, setShowWallets }) => {
   const [args, setArgs] = useState<Argument[]>([])
   const [balance, setBalance] = useState<number | undefined>(undefined)
 
@@ -98,7 +99,7 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, ne
       padding: '8px 16px',
       color: '#000'
     }}>
-      <h2>{artifact?.contractName}</h2>
+      <h2>{artifact?.contractName} <button onClick={() => setShowWallets(true)} style={{float:'right', border:'none', backgroundColor: 'transparent',outline: 'none'}}>⇆</button></h2>
       {constructorForm}
       {contract !==  undefined && balance !== undefined &&
         <div style={{ margin: '5px', width: '100%' }}>

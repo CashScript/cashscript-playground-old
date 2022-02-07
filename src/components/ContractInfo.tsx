@@ -6,9 +6,10 @@ import ContractFunctions from './ContractFunctions'
 
 interface Props {
   artifact?: Artifact
+  setShowWallets:(showWallets: boolean) => void
 }
 
-const ContractInfo: React.FC<Props> = ({ artifact }) => {
+const ContractInfo: React.FC<Props> = ({ artifact, setShowWallets }) => {
   const [contract, setContract] = useState<Contract | undefined>(undefined)
   const [network, setNetwork] = useState<Network>('mainnet')
 
@@ -19,7 +20,7 @@ const ContractInfo: React.FC<Props> = ({ artifact }) => {
       id="preview"
       style={{ flex: 1, margin: '16px' }}
     >
-      <ContractCreation artifact={artifact} contract={contract} setContract={setContract} network={network} setNetwork={setNetwork} />
+      <ContractCreation artifact={artifact} contract={contract} setContract={setContract} network={network} setNetwork={setNetwork} setShowWallets={setShowWallets}/>
       <ContractFunctions artifact={artifact} contract={contract} network={network} />
     </ColumnFlex>
   )
