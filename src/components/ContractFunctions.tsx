@@ -1,16 +1,18 @@
 import React from 'react'
 import { Artifact, Contract, Network } from 'cashscript'
 import ContractFunction from './ContractFunction'
+import { Wallet } from './shared'
 
 interface Props {
   artifact?: Artifact
   contract?: Contract
   network: Network
+  wallets: Wallet[]
 }
 
-const ContractFunctions: React.FC<Props> = ({ artifact, contract, network }) => {
+const ContractFunctions: React.FC<Props> = ({ artifact, contract, network, wallets }) => {
   const functions = artifact?.abi.map(func => (
-    <ContractFunction contract={contract} abi={func} network={network} />
+    <ContractFunction contract={contract} abi={func} network={network} wallets={wallets}/>
   ))
 
   return (

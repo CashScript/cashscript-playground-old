@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
 import { Artifact } from 'cashscript';
 import { compileString } from 'cashc';
-import { RowFlex } from './shared';
+import { RowFlex, Wallet } from './shared';
 import Editor from './Editor';
 import ContractInfo from './ContractInfo';
 import WalletInfo from './Wallets';
 
 interface Props {}
-
-interface Wallet {
-  privKeyHex: string
-  pubKeyHex: string
-  pubKeyHashHex: string
-  address: string
-}
 
 const Main: React.FC<Props> = () => {
   const [code, setCode] = useState<string>(
@@ -55,7 +48,7 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
     }}>
       <Editor code={code} setCode={setCode} compile={compile} />
       <WalletInfo style={!showWallets?{display:'none'}:{}} setShowWallets={setShowWallets} wallets={wallets} setWallets={setWallets}/>
-      <ContractInfo style={showWallets?{display:'none'}:{}} setShowWallets={setShowWallets} artifact={artifact} />
+      <ContractInfo style={showWallets?{display:'none'}:{}} setShowWallets={setShowWallets} artifact={artifact} wallets={wallets}/>
     </RowFlex>
   )
 }

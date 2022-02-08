@@ -1,5 +1,5 @@
-import React from 'react'
-import { ColumnFlex } from './shared'
+import React, { useEffect } from 'react'
+import { ColumnFlex, Wallet } from './shared'
 import { Button, Card } from 'react-bootstrap'
 import { 
   binToHex,
@@ -13,13 +13,6 @@ import {
   CashAddressType
 } from '@bitauth/libauth'
 
-interface Wallet {
-  privKeyHex: string
-  pubKeyHex: string
-  pubKeyHashHex: string
-  address: string
-}
-
 interface Props {
   setShowWallets:(showWallets: boolean) => void
   wallets: Wallet[]
@@ -27,14 +20,11 @@ interface Props {
   style: any
 }
 
-interface Wallet {
-  privKeyHex: string
-  pubKeyHex: string
-  pubKeyHashHex: string
-  address: string
-}
-
-const Test: React.FC<Props> = ({setShowWallets,  wallets, setWallets, style}) => {
+const WalletInfo: React.FC<Props> = ({setShowWallets,  wallets, setWallets, style}) => {
+  useEffect(() => {
+    addWallet()
+  }, [])
+  
   async function addWallet() {
     const walletsCopy = [...wallets]
 
@@ -55,7 +45,9 @@ const Test: React.FC<Props> = ({setShowWallets,  wallets, setWallets, style}) =>
 
     const address = hash160ToCash(pubKeyHashHex)
 
-    walletsCopy.push({privKeyHex,pubKeyHex,pubKeyHashHex,address})
+    const walletName = `Wallet${wallets.length+1}`
+
+    walletsCopy.push({walletName,privKey,privKeyHex,pubKeyHex,pubKeyHashHex,address})
     setWallets(walletsCopy)
   }
 
@@ -75,7 +67,7 @@ const Test: React.FC<Props> = ({setShowWallets,  wallets, setWallets, style}) =>
 
   const walletList = wallets.map((wallet, index) => (
     <Card style={{ marginBottom: '10px' }} key={wallet.privKeyHex}>
-      <Card.Header>{`Wallet${index+1}`}
+      <Card.Header>{wallet.walletName}
         <Button style={{float:"right"}} onClick={() => removeWallet(index)} variant="outline-secondary" size="sm">-</Button>
       </Card.Header>
       <Card.Body>
@@ -117,4 +109,4 @@ const Test: React.FC<Props> = ({setShowWallets,  wallets, setWallets, style}) =>
   )
 }
 
-export default Test
+export default WalletInfo

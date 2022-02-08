@@ -11,6 +11,15 @@ export const RowFlex = styled.div`
   flex-direction: row;
 `
 
+export interface Wallet {
+  walletName: string
+  privKey: Uint8Array
+  privKeyHex: string
+  pubKeyHex: string
+  pubKeyHashHex: string
+  address: string
+}
+
 export function readAsType(value: string, type: string) {
   if (type === 'int') {
     return Number(value);

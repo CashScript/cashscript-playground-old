@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Contract, AbiFunction, Argument, Network, Recipient } from 'cashscript'
-import { Form, InputGroup, Button, Card } from 'react-bootstrap'
-import { readAsType, ExplorerString } from './shared'
+import { Form, InputGroup, Button, Card, Dropdown } from 'react-bootstrap'
+import { readAsType, ExplorerString, Wallet } from './shared'
 
 interface Props {
   contract?: Contract
   abi?: AbiFunction
   network: Network
+  wallets: Wallet[]
 }
 
-const ContractFunction: React.FC<Props> = ({ contract, abi, network }) => {
+const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) => {
   const [args, setArgs] = useState<Argument[]>([])
   const [outputs, setOutputs] = useState<Recipient[]>([{ to: '', amount: 0 }])
 
@@ -17,9 +18,11 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network }) => {
     // Set empty strings as default values
     const newArgs = abi?.inputs.map(() => '') || [];
     setArgs(newArgs);
+    console.log(wallets)
   }, [abi])
 
   const inputFields = abi?.inputs.map((input, i) => (
+    <InputGroup>
     <Form.Control size="sm" id={`${input.name}-parameter-${i}`}
       placeholder={`${input.type} ${input.name}`}
       aria-label={`${input.type} ${input.name}`}
@@ -29,6 +32,20 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network }) => {
         setArgs(argsCopy);
       }}
     />
+    {input.type==='sig'? (
+      <Dropdown>
+      <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" size="sm">
+        Select Wallet
+      </Dropdown.Toggle>
+    
+      <Dropdown.Menu>
+        {wallets.map((wallet) => (
+          <Dropdown.Item href="#/action-1">{wallet.walletName}</Dropdown.Item>
+        ))}
+      </Dropdown.Menu>
+    </Dropdown>
+    ):null}
+    </InputGroup>
   )) || []
 
   const receiverInputGroup = outputs.map((output,index) =>(
