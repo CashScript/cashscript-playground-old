@@ -24,9 +24,17 @@ interface Props {
   setShowWallets:(showWallets: boolean) => void
   wallets: Wallet[]
   setWallets:(wallets: Wallet[]) => void
+  style: any
 }
 
-const Test: React.FC<Props> = ({setShowWallets, wallets, setWallets}) => {
+interface Wallet {
+  privKeyHex: string
+  pubKeyHex: string
+  pubKeyHashHex: string
+  address: string
+}
+
+const Test: React.FC<Props> = ({setShowWallets,  wallets, setWallets, style}) => {
   async function addWallet() {
     const walletsCopy = [...wallets]
 
@@ -86,7 +94,7 @@ const Test: React.FC<Props> = ({setShowWallets, wallets, setWallets}) => {
   return (
     <ColumnFlex
       id="preview"
-      style={{ flex: 1, margin: '16px' }}
+      style={{ ...style, flex: 1, margin: '16px' }}
     >
       <div style={{
         height: '100%',

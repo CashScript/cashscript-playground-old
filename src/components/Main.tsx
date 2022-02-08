@@ -54,10 +54,8 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
       height: 'calc(100vh - 120px'
     }}>
       <Editor code={code} setCode={setCode} compile={compile} />
-      {showWallets?
-        <WalletInfo setShowWallets={setShowWallets} wallets={wallets} setWallets={setWallets}/>
-        :<ContractInfo setShowWallets={setShowWallets} artifact={artifact} />
-      }
+      <WalletInfo style={!showWallets?{display:'none'}:{}} setShowWallets={setShowWallets} wallets={wallets} setWallets={setWallets}/>
+      <ContractInfo style={showWallets?{display:'none'}:{}} setShowWallets={setShowWallets} artifact={artifact} />
     </RowFlex>
   )
 }
