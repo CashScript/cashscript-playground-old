@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Contract, AbiFunction, Argument, Network, Recipient } from 'cashscript'
+import { Contract, AbiFunction, Argument, Network, Recipient, SignatureTemplate } from 'cashscript'
 import { Form, InputGroup, Button, Card, Dropdown } from 'react-bootstrap'
 import { readAsType, ExplorerString, Wallet } from './shared'
 
@@ -18,33 +18,43 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) 
     // Set empty strings as default values
     const newArgs = abi?.inputs.map(() => '') || [];
     setArgs(newArgs);
-    console.log(wallets)
   }, [abi])
+
+  function fillPrivKey(i:number,wallet:Wallet) {
+    const argsCopy = [...args];
+    argsCopy[i] = new SignatureTemplate(wallet.privKey);
+    setArgs(argsCopy);
+  }
 
   const inputFields = abi?.inputs.map((input, i) => (
     <InputGroup>
-    <Form.Control size="sm" id={`${input.name}-parameter-${i}`}
-      placeholder={`${input.type} ${input.name}`}
-      aria-label={`${input.type} ${input.name}`}
-      onChange={(event) => {
-        const argsCopy = [...args];
-        argsCopy[i] = readAsType(event.target.value, input.type);
-        setArgs(argsCopy);
-      }}
-    />
-    {input.type==='sig'? (
+      {input.type==='sig'? (
+      <><Form.Control size="sm" id={`${input.name}-parameter-${i}`} disabled
+        placeholder={`${input.type} ${input.name}`}
+        aria-label={`${input.type} ${input.name}`}
+      />
       <Dropdown>
-      <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" size="sm">
-        Select Wallet
-      </Dropdown.Toggle>
-    
-      <Dropdown.Menu>
-        {wallets.map((wallet) => (
-          <Dropdown.Item href="#/action-1">{wallet.walletName}</Dropdown.Item>
-        ))}
-      </Dropdown.Menu>
-    </Dropdown>
-    ):null}
+        <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" size="sm">
+          Select Wallet
+        </Dropdown.Toggle>
+      
+        <Dropdown.Menu>
+          {wallets.map((wallet) => (
+            <Dropdown.Item onClick={()=>fillPrivKey(i,wallet)}>{wallet.walletName}</Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown></>
+      ):(
+        <Form.Control size="sm" id={`${input.name}-parameter-${i}`}
+          placeholder={`${input.type} ${input.name}`}
+          aria-label={`${input.type} ${input.name}`}
+          onChange={(event) => {
+            const argsCopy = [...args];
+            argsCopy[i] = readAsType(event.target.value, input.type);
+            setArgs(argsCopy);
+          }}
+        />
+      )}
     </InputGroup>
   )) || []
 
