@@ -2,17 +2,22 @@ import React from 'react'
 import { ColumnFlex } from './shared'
 import { Button, Card } from 'react-bootstrap'
 import { 
-  binToHex, 
+  binToHex,
+  hexToBin,
   instantiateSecp256k1,
   generatePrivateKey, 
   instantiateRipemd160, 
-  instantiateSha256 
+  instantiateSha256,
+  Base58AddressFormatVersion,
+  encodeCashAddress,
+  CashAddressType
 } from '@bitauth/libauth'
 
 interface Wallet {
   privKeyHex: string
   pubKeyHex: string
   pubKeyHashHex: string
+  address: string
 }
 
 interface Props {
@@ -40,8 +45,18 @@ const Test: React.FC<Props> = ({setShowWallets, wallets, setWallets}) => {
     const pubKeyHash = ripemd160.hash(sha256.hash(pubKey))
     const pubKeyHashHex = binToHex(pubKeyHash)
 
-    walletsCopy.push({privKeyHex,pubKeyHex,pubKeyHashHex})
+    const address = hash160ToCash(pubKeyHashHex)
+
+    walletsCopy.push({privKeyHex,pubKeyHex,pubKeyHashHex,address})
     setWallets(walletsCopy)
+  }
+
+  function hash160ToCash(hex: string, network: number = 0x00) {
+    let type: string = Base58AddressFormatVersion[network] || "p2pkh";
+    let prefix = "bitcoincash";
+    if (type.endsWith("Testnet")) prefix = "bchtest"
+    let cashType: CashAddressType = 0;
+    return encodeCashAddress(prefix, cashType, hexToBin(hex));
   }
 
   function removeWallet(index:number) {
@@ -61,6 +76,8 @@ const Test: React.FC<Props> = ({setShowWallets, wallets, setWallets}) => {
           <p>{wallet.pubKeyHex}</p>
           <strong>Pubkeyhash hex: </strong>
           <p>{wallet.pubKeyHashHex}</p>
+          <strong>Address: </strong>
+          <p>{wallet.address}</p>
         </Card.Text>
       </Card.Body>
     </Card>

@@ -4,7 +4,7 @@ import { compileString } from 'cashc';
 import { RowFlex } from './shared';
 import Editor from './Editor';
 import ContractInfo from './ContractInfo';
-import Test from './Wallets';
+import WalletInfo from './Wallets';
 
 interface Props {}
 
@@ -12,6 +12,7 @@ interface Wallet {
   privKeyHex: string
   pubKeyHex: string
   pubKeyHashHex: string
+  address: string
 }
 
 const Main: React.FC<Props> = () => {
@@ -54,7 +55,7 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
     }}>
       <Editor code={code} setCode={setCode} compile={compile} />
       {showWallets?
-        <Test setShowWallets={setShowWallets} wallets={wallets} setWallets={setWallets}/>
+        <WalletInfo setShowWallets={setShowWallets} wallets={wallets} setWallets={setWallets}/>
         :<ContractInfo setShowWallets={setShowWallets} artifact={artifact} />
       }
     </RowFlex>
