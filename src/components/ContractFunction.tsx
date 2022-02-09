@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Contract, AbiFunction, Argument, Network, Recipient, SignatureTemplate } from 'cashscript'
-import { Form, InputGroup, Button, Card, Dropdown } from 'react-bootstrap'
+import { Form, InputGroup, Button, Card } from 'react-bootstrap'
 import { readAsType, ExplorerString, Wallet } from './shared'
 
 interface Props {
@@ -20,9 +20,13 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) 
     setArgs(newArgs);
   }, [abi])
 
-  function fillPrivKey(i:number,wallet:Wallet) {
+  function fillPrivKey(i:number,walletIndex:string) {
     const argsCopy = [...args];
-    argsCopy[i] = new SignatureTemplate(wallet.privKey);
+    // if no wallet is selected in select form
+    if(isNaN(Number(walletIndex))) argsCopy[i] = ''
+    else{
+      argsCopy[i] = new SignatureTemplate(wallets[Number(walletIndex)].privKey);
+    }
     setArgs(argsCopy);
   }
 
@@ -33,17 +37,12 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) 
         placeholder={`${input.type} ${input.name}`}
         aria-label={`${input.type} ${input.name}`}
       />
-      <Dropdown>
-        <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" size="sm">
-          Select Wallet
-        </Dropdown.Toggle>
-      
-        <Dropdown.Menu>
-          {wallets.map((wallet) => (
-            <Dropdown.Item onClick={()=>fillPrivKey(i,wallet)}>{wallet.walletName}</Dropdown.Item>
+      <Form.Control as="select" size="sm" onChange={event =>fillPrivKey(i,event.target.value)}>
+        <option className="text-center" value={`NaN`}>select wallet</option>
+        {wallets.map((wallet, walletIndex) => (
+            <option className="text-center" value={`${walletIndex}`}>{wallet.walletName}</option>
           ))}
-        </Dropdown.Menu>
-      </Dropdown></>
+      </Form.Control></>
       ):(
         <Form.Control size="sm" id={`${input.name}-parameter-${i}`}
           placeholder={`${input.type} ${input.name}`}
