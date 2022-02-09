@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { ColumnFlex, Wallet } from './shared'
-import { Button, Card } from 'react-bootstrap'
+import { Button, Card, Form } from 'react-bootstrap'
 import { 
   binToHex,
   hexToBin,
@@ -65,9 +65,23 @@ const WalletInfo: React.FC<Props> = ({setShowWallets,  wallets, setWallets, styl
     setWallets(walletsCopy)
   }
 
+  function changeName(e:any, i:number) {
+    const walletsCopy = [...wallets]
+    walletsCopy[i].walletName = e.target.value;
+    setWallets(walletsCopy)
+  };
+
   const walletList = wallets.map((wallet, index) => (
     <Card style={{ marginBottom: '10px' }} key={wallet.privKeyHex}>
-      <Card.Header>{wallet.walletName}
+      <Card.Header>
+        <input
+          type="text"
+          id="inputName"
+          value={wallet.walletName}
+          onChange={(e) => changeName(e, index)}
+          className="inputName"
+          placeholder="name"
+        />
         <Button style={{float:"right"}} onClick={() => removeWallet(index)} variant="outline-secondary" size="sm">-</Button>
       </Card.Header>
       <Card.Body>
