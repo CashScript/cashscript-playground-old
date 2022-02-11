@@ -121,7 +121,11 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) 
             <Card.Text>
               {inputFields}
             </Card.Text>
-            <Card.Subtitle style={{ marginTop: '10px',marginBottom: '5px' }}>Transaction outputs <Button variant="outline-secondary" size="sm" onClick={removeOutput}>-</Button> {outputs.length} <Button variant="outline-secondary" size="sm" onClick={addOutput}>+</Button>
+            <Card.Subtitle style={{ marginTop: '10px',marginBottom: '5px' }}>
+              Transaction outputs{' '}
+              <Button variant="outline-secondary" size="sm" disabled={outputs.length<=1} onClick={removeOutput}>-</Button>
+              {' '+outputs.length+' '} 
+              <Button variant="outline-secondary" size="sm" onClick={addOutput}>+</Button>
             </Card.Subtitle>
             <Card.Text>
               {receiverInputGroup}
