@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Artifact } from 'cashscript';
+import { Artifact, Network } from 'cashscript';
 import { compileString } from 'cashc';
 import { RowFlex, Wallet } from './shared';
 import Editor from './Editor';
@@ -27,6 +27,7 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
 `);
 
   const [artifact, setArtifact] = useState<Artifact | undefined>(undefined);
+  const [network, setNetwork] = useState<Network>('mainnet')
   const [showWallets, setShowWallets] = useState<boolean | undefined>(false);
   const [wallets, setWallets] = useState<Wallet[]>([])
 
@@ -47,8 +48,8 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
       height: 'calc(100vh - 120px'
     }}>
       <Editor code={code} setCode={setCode} compile={compile} />
-      <WalletInfo style={!showWallets?{display:'none'}:{}} setShowWallets={setShowWallets} wallets={wallets} setWallets={setWallets}/>
-      <ContractInfo style={showWallets?{display:'none'}:{}} setShowWallets={setShowWallets} artifact={artifact} wallets={wallets}/>
+      <WalletInfo style={!showWallets?{display:'none'}:{}} network={network} setShowWallets={setShowWallets} wallets={wallets} setWallets={setWallets}/>
+      <ContractInfo style={showWallets?{display:'none'}:{}} artifact={artifact} network={network} setNetwork={setNetwork} setShowWallets={setShowWallets} wallets={wallets}/>
     </RowFlex>
   )
 }

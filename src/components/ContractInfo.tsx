@@ -6,14 +6,15 @@ import ContractFunctions from './ContractFunctions'
 
 interface Props {
   artifact?: Artifact
+  network: Network
+  setNetwork: (network: Network) => void
   style: any
   setShowWallets:(showWallets: boolean) => void
   wallets: Wallet[]
 }
 
-const ContractInfo: React.FC<Props> = ({ artifact, setShowWallets, style, wallets }) => {
+const ContractInfo: React.FC<Props> = ({ artifact, network, setNetwork, setShowWallets, style, wallets }) => {
   const [contract, setContract] = useState<Contract | undefined>(undefined)
-  const [network, setNetwork] = useState<Network>('mainnet')
 
   useEffect(() => setContract(undefined), [artifact])
 

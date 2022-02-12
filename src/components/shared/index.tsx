@@ -18,6 +18,7 @@ export interface Wallet {
   pubKeyHex: string
   pubKeyHashHex: string
   address: string
+  testnetAddress: string
 }
 
 export function readAsType(value: string, type: string) {

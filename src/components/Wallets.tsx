@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Network } from 'cashscript'
 import { ColumnFlex, Wallet } from './shared'
 import { Button, Card, Form } from 'react-bootstrap'
 import { 
@@ -14,13 +15,14 @@ import {
 } from '@bitauth/libauth'
 
 interface Props {
+  network: Network
   setShowWallets:(showWallets: boolean) => void
   wallets: Wallet[]
   setWallets:(wallets: Wallet[]) => void
   style: any
 }
 
-const WalletInfo: React.FC<Props> = ({setShowWallets,  wallets, setWallets, style}) => {
+const WalletInfo: React.FC<Props> = ({network, setShowWallets,  wallets, setWallets, style}) => {
   useEffect(() => {
     addWallet()
   }, [])
@@ -31,6 +33,8 @@ const WalletInfo: React.FC<Props> = ({setShowWallets,  wallets, setWallets, styl
     const secp256k1 = await instantiateSecp256k1();
     const ripemd160 = await instantiateRipemd160();
     const sha256 = await instantiateSha256();
+
+    const walletName = `Wallet${wallets.length+1}`
 
     const privKey = generatePrivateKey(() =>
     window.crypto.getRandomValues(new Uint8Array(32))
@@ -44,10 +48,9 @@ const WalletInfo: React.FC<Props> = ({setShowWallets,  wallets, setWallets, styl
     const pubKeyHashHex = binToHex(pubKeyHash)
 
     const address = hash160ToCash(pubKeyHashHex)
+    const testnetAddress = hash160ToCash(pubKeyHashHex,0x6f)
 
-    const walletName = `Wallet${wallets.length+1}`
-
-    walletsCopy.push({walletName,privKey,privKeyHex,pubKeyHex,pubKeyHashHex,address})
+    walletsCopy.push({walletName,privKey,privKeyHex,pubKeyHex,pubKeyHashHex,address,testnetAddress})
     setWallets(walletsCopy)
   }
 
@@ -90,8 +93,8 @@ const WalletInfo: React.FC<Props> = ({setShowWallets,  wallets, setWallets, styl
           <p>{wallet.pubKeyHex}</p>
           <strong>Pubkeyhash hex: </strong>
           <p>{wallet.pubKeyHashHex}</p>
-          <strong>Address: </strong>
-          <p>{wallet.address}</p>
+          <strong>{network==="mainnet"? "Address:" : "Testnet Address:"}</strong>
+          <p>{network==="mainnet"? wallet.address : wallet.testnetAddress}</p>
         </Card.Text>
       </Card.Body>
     </Card>
