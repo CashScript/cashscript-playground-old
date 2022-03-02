@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Artifact, Network } from 'cashscript';
 import { compileString } from 'cashc';
 import { RowFlex, Wallet } from './shared';
@@ -30,6 +30,10 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
   const [network, setNetwork] = useState<Network>('mainnet')
   const [showWallets, setShowWallets] = useState<boolean | undefined>(false);
   const [wallets, setWallets] = useState<Wallet[]>([])
+
+  useEffect(() => {
+    compile();
+  }, [])
 
   function compile() {
     try {
