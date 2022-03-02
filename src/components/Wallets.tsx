@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Network } from 'cashscript'
 import { ColumnFlex, Wallet } from './shared'
-import { Button, Card, Form } from 'react-bootstrap'
+import { Button, Card } from 'react-bootstrap'
 import { 
   binToHex,
   hexToBin,
@@ -85,7 +85,13 @@ const WalletInfo: React.FC<Props> = ({network, setShowWallets,  wallets, setWall
           className="inputName"
           placeholder="name"
         />
-        <Button style={{float:"right"}} onClick={() => removeWallet(index)} variant="outline-secondary" size="sm">-</Button>
+        <Button 
+          style={{float:"right", marginTop:"2px"}} 
+          onClick={() => removeWallet(index)} 
+          variant="outline-secondary" 
+          size="sm">
+          -
+        </Button>
       </Card.Header>
       <Card.Body>
         <Card.Text style={{overflowWrap:'anywhere'}}>

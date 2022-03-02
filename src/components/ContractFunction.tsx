@@ -117,7 +117,7 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) 
         <Card style={{ marginBottom: '10px' }}>
           <Card.Header>{abi?.name}</Card.Header>
           <Card.Body>
-            <Card.Subtitle>Arguments</Card.Subtitle>
+            <Card.Subtitle  style={{ marginBottom: '5px' }}>Arguments</Card.Subtitle>
             <Card.Text>
               {inputFields}
             </Card.Text>
