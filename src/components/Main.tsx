@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
-import { Artifact, CashCompiler } from 'cashscript';
-import { RowFlex } from './shared'
+import React, { useState, useEffect } from 'react';
+import { Artifact, Network } from 'cashscript';
+import { compileString } from 'cashc';
+import { RowFlex, Wallet } from './shared';
 import Editor from './Editor';
 import ContractInfo from './ContractInfo';
+import WalletInfo from './Wallets';
 
 interface Props {}
 
 const Main: React.FC<Props> = () => {
   const [code, setCode] = useState<string>(
-`pragma cashscript ^0.5.0;
+`pragma cashscript ^0.6.5;
 
 contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
     // Require recipient's signature to match
@@ -25,10 +27,17 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
 `);
 
   const [artifact, setArtifact] = useState<Artifact | undefined>(undefined);
+  const [network, setNetwork] = useState<Network>('mainnet')
+  const [showWallets, setShowWallets] = useState<boolean | undefined>(false);
+  const [wallets, setWallets] = useState<Wallet[]>([])
+
+  useEffect(() => {
+    compile();
+  }, [])
 
   function compile() {
     try {
-      const artifact = CashCompiler.compileString(code);
+      const artifact = compileString(code);
       setArtifact(artifact);
     } catch (e) {
       alert(e.message);
@@ -43,7 +52,8 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
       height: 'calc(100vh - 120px'
     }}>
       <Editor code={code} setCode={setCode} compile={compile} />
-      <ContractInfo artifact={artifact} />
+      <WalletInfo style={!showWallets?{display:'none'}:{}} network={network} setShowWallets={setShowWallets} wallets={wallets} setWallets={setWallets}/>
+      <ContractInfo style={showWallets?{display:'none'}:{}} artifact={artifact} network={network} setNetwork={setNetwork} setShowWallets={setShowWallets} wallets={wallets}/>
     </RowFlex>
   )
 }

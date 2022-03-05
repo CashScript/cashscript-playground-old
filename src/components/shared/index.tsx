@@ -11,6 +11,16 @@ export const RowFlex = styled.div`
   flex-direction: row;
 `
 
+export interface Wallet {
+  walletName: string
+  privKey: Uint8Array
+  privKeyHex: string
+  pubKeyHex: string
+  pubKeyHashHex: string
+  address: string
+  testnetAddress: string
+}
+
 export function readAsType(value: string, type: string) {
   if (type === 'int') {
     return Number(value);
@@ -43,5 +53,6 @@ export function readAsType(value: string, type: string) {
 
 export const ExplorerString = {
   mainnet: 'https://explorer.bitcoin.com/bch',
-  testnet: 'https://explorer.bitcoin.com/tbch'
+  testnet: 'http://testnet.imaginary.cash',
+  regtest: ''
 }
