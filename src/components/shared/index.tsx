@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { SignatureTemplate } from 'cashscript';
+import { SignatureTemplate, Utxo } from 'cashscript';
 import { decodeCashAddress, decodeCashAddressFormatWithoutPrefix } from '@bitauth/libauth';
 
 export const ColumnFlex = styled.div`
@@ -19,6 +19,12 @@ export interface Wallet {
   pubKeyHashHex: string
   address: string
   testnetAddress: string
+}
+
+export interface NamedUtxo extends Utxo {
+  name: string;
+  isP2pkh: boolean;
+  walletIndex?: number;
 }
 
 export function readAsType(value: string, type: string) {
