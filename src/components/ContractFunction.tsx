@@ -150,11 +150,16 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) 
       try {
         const contractInputs = inputs.filter(input => !input.isP2pkh)
         const p2pkhInput = inputs.filter(input => input.isP2pkh)
-        if(p2pkhInput[0].walletIndex===undefined) return
 
-        const { txid } = await contract.functions[abi.name](...args)
+        // check if P2PKH input was added and construct transaction accordingly
+        const { txid } = p2pkhInput[0]!==undefined && p2pkhInput[0].walletIndex!==undefined? 
+          await contract.functions[abi.name](...args)
           .from(contractInputs)
           .experimentalFromP2PKH(p2pkhInput, new SignatureTemplate(wallets[p2pkhInput[0].walletIndex].privKey))
+          .to(outputs)
+          .send()
+        : await contract.functions[abi.name](...args)
+          .from(contractInputs)
           .to(outputs)
           .send()
   
