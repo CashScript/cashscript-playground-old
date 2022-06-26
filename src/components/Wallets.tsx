@@ -24,7 +24,11 @@ interface Props {
 
 const WalletInfo: React.FC<Props> = ({network, setShowWallets,  wallets, setWallets, style}) => {
   useEffect(() => {
-    addWallet()
+    const localStorageData = localStorage.getItem("wallets");
+    // If the local storage is null
+    if (localStorageData == null) {
+        addWallet()
+      }
   }, [])
   
   async function addWallet() {
@@ -73,6 +77,45 @@ const WalletInfo: React.FC<Props> = ({network, setShowWallets,  wallets, setWall
     walletsCopy[i].walletName = e.target.value;
     setWallets(walletsCopy)
   };
+
+  useEffect(() => {
+    const readLocalStorage = () => {
+      // Convert the string back to the wallets object
+      const localStorageData = localStorage.getItem("wallets");
+      // If the local storage is not null
+      if (localStorageData !== null) {
+        const newWallets = JSON.parse(localStorageData);
+        setWallets(newWallets);
+      }
+    };
+    // Read local storage on initialization
+    readLocalStorage();
+  }, []);
+
+  useEffect(() => {
+    const readLocalStorage = () => {
+      // Convert the string back to the wallets object
+      const localStorageData = localStorage.getItem("wallets");
+      // If the local storage is not null
+      if (localStorageData !== null) {
+        const newWallets = JSON.parse(localStorageData);
+        for (const wallet of newWallets){
+          wallet.privKey = new Uint8Array(Object.values( wallet.privKey))
+        }
+        setWallets(newWallets);
+      }
+    };
+    // Read local storage on initialization
+    readLocalStorage();
+  }, []);
+
+  useEffect(() => {
+    const writeToLocalStorage = () => {
+      // Clear local storage and write the walletlist array to it as a string
+      localStorage.setItem("wallets", JSON.stringify(wallets));
+    };
+    writeToLocalStorage();
+  }, [wallets]);
 
   const walletList = wallets.map((wallet, index) => (
     <Card style={{ marginBottom: '10px' }} key={wallet.privKeyHex}>

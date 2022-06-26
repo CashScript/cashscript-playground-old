@@ -61,6 +61,7 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, ne
     >
       <option>mainnet</option>
       <option>testnet</option>
+      <option>staging</option>
     </Form.Control>
   )
 
