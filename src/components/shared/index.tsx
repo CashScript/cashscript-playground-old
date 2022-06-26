@@ -60,6 +60,6 @@ export function readAsType(value: string, type: string) {
 export const ExplorerString = {
   mainnet: 'https://explorer.bitcoin.com/bch',
   testnet: 'http://testnet.imaginary.cash',
-  staging: 'https://testnet4.imaginary.cash/',
+  staging: 'https://testnet4.imaginary.cash',
   regtest: ''
 }

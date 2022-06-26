@@ -32,11 +32,23 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
   const [wallets, setWallets] = useState<Wallet[]>([])
 
   useEffect(() => {
-    compile();
+    const newCode = localStorage.getItem("code");
+    // If the local storage is null
+    if (newCode !== null) {
+      setCode(newCode);
+      try {
+        const artifact = compileString(newCode);
+        setArtifact(artifact);
+      } catch (e) {
+        alert(e.message);
+        console.error(e.message);
+      }
+    }
   }, [])
 
   function compile() {
     try {
+      localStorage.setItem("code", code);
       const artifact = compileString(code);
       setArtifact(artifact);
     } catch (e) {
