@@ -33,8 +33,8 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
 
   useEffect(() => {
     const newCode = localStorage.getItem("code");
-    // If the local storage is null
-    if (newCode !== null) {
+    // If item code exits in local storage
+    if (newCode !== null && newCode !== undefined) {
       setCode(newCode);
       try {
         const artifact = compileString(newCode);
