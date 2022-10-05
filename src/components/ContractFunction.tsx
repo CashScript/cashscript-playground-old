@@ -16,6 +16,7 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) 
   // transaction inputs, not the same as abi.inputs 
   const [inputs, setInputs] = useState<NamedUtxo[]>([{txid: '', vout: 0, satoshis: 0, name: ``, isP2pkh:false}])
   const [manualSelection, setManualSelection] = useState<boolean>(false)
+  const [noAutomaticChange, setNoAutomaticChange] = useState<boolean>(false)
   const [utxoList, setUtxoList] = useState<NamedUtxo[]>([])
 
   useEffect(() => {
@@ -134,41 +135,30 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) 
 
   async function sendTransaction() {
     if (!contract || !abi) return
-    if(!manualSelection){
-      try {
-        const { txid } = await contract.functions[abi.name](...args)
-          .to(outputs)
-          .send()
-  
-        alert(`Transaction successfully sent: ${ExplorerString[network]}/tx/${txid}`)
-        console.log(`Transaction successfully sent: ${ExplorerString[network]}/tx/${txid}`)
-      } catch (e) {
-        alert(e.message)
-        console.error(e.message)
-      }
-    } else{
-      try {
-        const contractInputs = inputs.filter(input => !input.isP2pkh)
-        const p2pkhInput = inputs.filter(input => input.isP2pkh)
 
-        // check if P2PKH input was added and construct transaction accordingly
-        const { txid } = p2pkhInput[0]!==undefined && p2pkhInput[0].walletIndex!==undefined? 
-          await contract.functions[abi.name](...args)
-          .from(contractInputs)
-          .experimentalFromP2PKH(p2pkhInput, new SignatureTemplate(wallets[p2pkhInput[0].walletIndex].privKey))
-          .to(outputs)
-          .send()
-        : await contract.functions[abi.name](...args)
-          .from(contractInputs)
-          .to(outputs)
-          .send()
-  
-        alert(`Transaction successfully sent: ${ExplorerString[network]}/tx/${txid}`)
-        console.log(`Transaction successfully sent: ${ExplorerString[network]}/tx/${txid}`)
-      } catch (e) {
-        alert(e.message)
-        console.error(e.message)
+    // try to send transaction and alert result
+    try {
+      // first step of constructing transaction
+      const transaction = contract.functions[abi.name](...args)
+
+      // if manualSelection is enabled, add the selected inputs
+      const contractInputs = inputs.filter(input => !input.isP2pkh)
+      let p2pkhInput = inputs.filter(input => input.isP2pkh)
+      if(manualSelection &&  p2pkhInput[0]!==undefined && p2pkhInput[0].walletIndex!==undefined){
+        transaction.from(contractInputs)
+        .experimentalFromP2PKH(p2pkhInput, new SignatureTemplate(wallets[p2pkhInput[0].walletIndex].privKey))
       }
+
+      // if noAutomaticChange is enabled, add this to the transaction in construction
+      if(noAutomaticChange) transaction.withoutChange()
+      transaction.to(outputs)
+      const { txid } = await transaction.send()
+
+      alert(`Transaction successfully sent: ${ExplorerString[network]}/tx/${txid}`)
+      console.log(`Transaction successfully sent: ${ExplorerString[network]}/tx/${txid}`)
+    } catch (e) {
+      alert(e.message)
+      console.error(e.message)
     }
   }
 
@@ -223,6 +213,14 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) 
                 {inputFields}
               </Card.Text></>
             ):null}
+            <Form style={{ marginTop: '10px',marginBottom: '5px' }}>
+              <Form.Check 
+                type="switch"
+                id={"noAutomaticChange"+abi?.name}
+                label="disable automatic change output"
+                onChange={()=>setNoAutomaticChange(!noAutomaticChange)}
+              />
+            </Form>
             <Card.Subtitle style={{ marginTop: '10px',marginBottom: '5px' }}>
               Transaction outputs{' '}
               <Button variant="outline-secondary" size="sm" disabled={outputs.length<=1} onClick={removeOutput}>-</Button>
