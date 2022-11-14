@@ -61,5 +61,8 @@ export const ExplorerString = {
   mainnet: 'https://explorer.bitcoin.com/bch',
   testnet: 'http://testnet.imaginary.cash',
   staging: 'https://testnet4.imaginary.cash',
+  testnet3: 'http://testnet.imaginary.cash',
+  testnet4: 'https://testnet4.imaginary.cash',
+  chipnet: 'https://chipnet.imaginary.cash',
   regtest: ''
 }
