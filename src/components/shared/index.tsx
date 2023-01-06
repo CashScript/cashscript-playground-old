@@ -29,7 +29,12 @@ export interface NamedUtxo extends Utxo {
 
 export function readAsType(value: string, type: string) {
   if (type === 'int') {
-    return Number(value);
+    try{
+      return BigInt(value);
+    } catch(error){ 
+      alert("Should only have numbers in the integer field")
+    }
+    return ""
   } else if (type === 'bool') {
     return value === 'true';
   } else if (type === 'sig') {
