@@ -1,3 +1,5 @@
+:warning: **This repository has been archived and got replaced by [CashScript/cashscript-playground](https://github.com/CashScript/cashscript-playground)** :warning:
+
 # CashScript Playground
 The CashScript Playground is a way to write CashScript contracts and immediately interact with them in the browser. It is inspired by Ethereum's Remix, but slightly less feature-rich.
 
